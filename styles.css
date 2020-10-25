@@ -1,12 +1,12 @@
 @font-face {
 	font-family: LeagueGothic;
-	src: url("AMATIC-SC.TTF");
+	src: url("../AMATIC-SC.TTF");
 }
 
 body {
     font-family: LeagueGothic;
     font-size: 24px;
-    background-image: url("Images/bg.jpg");
+    background-image: url("../Images/bg.jpg");
     background-repeat: repeat;
 }
 
@@ -98,7 +98,7 @@ h1{
 
     width: fit-content;
 
-    background-image: url("Images/Coin.png");
+    background-image: url("../Images/Coin.png");
     background-position: left;
     background-size: auto 100%;
     background-repeat: no-repeat;
