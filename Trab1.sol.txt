@@ -1,0 +1,144 @@
+pragma solidity >=0.4.16 <0.7.0;
+
+contract Trab1 {
+    
+    struct item{
+        uint purshasedDate;
+        uint outOfValidityDate;
+        uint validity;
+        
+        uint value;
+    }
+
+    address payable public gameOwner;
+    uint public ownerAmount;
+    bool public isActive = true;
+    
+    mapping(address => item) pendingItems;
+    address[] itemIndexes;
+
+    // Events that will be emitted on changes.
+    event HighestBidIncreased(address bidder, uint amount);
+    event AuctionEnded(address winner, uint amount);
+
+
+    constructor(
+        address payable _beneficiary
+    ) public {
+        gameOwner = _beneficiary;
+    }
+
+
+    function buyItem(uint validity, uint value) public payable {
+
+        require(pendingItems[msg.sender].purshasedDate == 0, "This wallet already purshased an item");
+        require(isActive, "The game is not active anymore");
+        require(msg.value == value, "The value does not correspond ton the value of the item");
+        require(validity * 1 days <= msg.value, "The value is too low or the validity too high, precison error would occur");
+        if (msg.value != 0) {
+            item memory purshasedItem = item(now, now + validity, validity * 1 days, msg.value);
+            purshasedItem.outOfValidityDate = now + purshasedItem.validity;
+            pendingItems[msg.sender] = purshasedItem;
+            itemIndexes.push(msg.sender);
+        }
+    }
+
+///Withdraw the item of the sender's wallet
+    function withdraw() public returns (bool) {
+        item memory withdrawItem = pendingItems[msg.sender];
+        require(withdrawItem.value > 0, "No item to withdraw");
+        
+        pendingItems[msg.sender] = item(0,0,0,0);
+        if (!isActive)
+        {
+            if (!msg.sender.send(withdrawItem.value)) {
+                pendingItems[msg.sender] = withdrawItem;
+                return false;
+            }
+            return true;
+        }
+        
+        if (withdrawItem.outOfValidityDate <= now) {
+            ownerAmount += withdrawItem.value;
+            removeIndex(msg.sender);
+        }
+        else
+        {
+            uint returnValue = ((withdrawItem.outOfValidityDate - now) * withdrawItem.value) / withdrawItem.validity;
+
+            if (!msg.sender.send(returnValue)) {
+                pendingItems[msg.sender] = withdrawItem;
+                return false;
+            }
+            ownerAmount += withdrawItem.value - returnValue;
+            removeIndex(msg.sender);
+        }
+        return true;
+    }
+
+    function removeIndex(address key) private {
+        for (uint i=0; i<itemIndexes.length; i++)
+        {
+            if (key == itemIndexes[i])
+            {
+                itemIndexes[i] = itemIndexes[itemIndexes.length -1];
+                itemIndexes.pop;
+                break;
+            }
+        }
+    }
+
+    /// Retrieve the owned value
+   function retrieveAmount() public {
+
+        require(msg.sender == gameOwner, "Only contract owner can retrieve the locked amount");
+        require(ownerAmount != 0, "No amount to retrieve");
+
+        gameOwner.transfer(ownerAmount);
+    }
+    
+    /// Collect the owned value from all items and adds it to the owner balance 
+    function collectAmount() public {
+        require(isActive, "The game is not active anymore");
+        for (uint i=0; i<itemIndexes.length; i++) 
+         {
+             retrieveFromItem(itemIndexes[i]);
+         }
+         removeAllOutOfDateItem();
+    }
+    
+    function retrieveFromItem(address key) private {
+        item memory currentItem = pendingItems[key]; 
+        uint ownedValue = ((now - currentItem.purshasedDate) * currentItem.value) / currentItem.validity;
+        pendingItems[key].value -= ownedValue;
+        ownerAmount += ownedValue;
+    }
+    
+    function removeAllOutOfDateItem() private {
+        for (uint i=0; i<itemIndexes.length; i++) 
+         {
+             if (pendingItems[itemIndexes[i]].value <= 0)
+             {
+                 pendingItems[itemIndexes[i]] = item(0,0,0,0);
+                 itemIndexes[i] = itemIndexes[itemIndexes.length -1];
+                 itemIndexes.pop;
+                 i--;
+             }
+         }
+        //REMOVE EMPTY SPACES
+    }
+    
+    function cancelContract() public {
+        require(msg.sender == gameOwner, "Only contract owner can cancel the contract");
+        
+        retrieveAmount();
+        isActive = false;
+        
+    }
+    
+    function seeItem() public view returns (uint _value, uint _outOfValidityDate){
+       _value = pendingItems[msg.sender].value;
+        _outOfValidityDate = pendingItems[msg.sender].outOfValidityDate;    
+    }
+    
+}
