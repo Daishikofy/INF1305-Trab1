@@ -168,6 +168,8 @@ const contract_abi = [
 
 ];
 
+
+
 const ethEnabled = () => {
     if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
@@ -177,13 +179,10 @@ const ethEnabled = () => {
     return false;
 }
 
-async function saveCoinbase() {
-    window.coinbase = await window.web3.eth.getCoinbase();
-};
-
 if (!ethEnabled()) {
     alert("Metamask or browser with Ethereum not detected!");
 }
+
 else {
     contracts[0] = new web3.eth.Contract(contract_abi, contract_address_1);
     contracts[1] = new web3.eth.Contract(contract_abi, contract_address_2);
@@ -194,13 +193,17 @@ else {
     saveCoinbase();
 }
 
+async function saveCoinbase() {
+    window.coinbase = await window.web3.eth.getCoinbase();
+};
+
 async function OnItemClick(gameIndex, itemIndex, value) {
     if (storeState[gameIndex][itemIndex]) {
         if (await contracts[gameIndex].withdraw().call())
             storeState[gameIndex][itemIndex] = false;
     }
     else {
-        await contracts[gameIndex].buyItem(itemValidity, value).send(value, { from: window.coinbase }))
+        await contracts[gameIndex].buyItem(itemValidity, value).send(value, { from: window.coinbase });
         storeState[gameIndex][itemIndex] = true;
     }
     UpdateView();
