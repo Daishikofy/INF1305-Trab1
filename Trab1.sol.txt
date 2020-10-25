@@ -99,6 +99,7 @@ contract Trab1 {
     
     /// Collect the owned value from all items and adds it to the owner balance 
     function collectAmount() public {
+        require(msg.sender == gameOwner, "Only contract owner can collect the pending items amount");
         require(isActive, "The game is not active anymore");
         for (uint i=0; i<itemIndexes.length; i++) 
          {
@@ -125,11 +126,11 @@ contract Trab1 {
                  i--;
              }
          }
-        //REMOVE EMPTY SPACES
     }
     
     function cancelContract() public {
         require(msg.sender == gameOwner, "Only contract owner can cancel the contract");
+        require(isActive, "Game was already canceled");
         
         retrieveAmount();
         isActive = false;

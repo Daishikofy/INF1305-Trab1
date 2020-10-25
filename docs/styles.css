@@ -8,6 +8,7 @@ body {
     font-size: 24px;
     background-image: url("Images/bg.jpg");
     background-repeat: repeat;
+    background-color: #62a395;
 }
 
 h1{
@@ -63,6 +64,7 @@ h1{
     background-size: auto 100%;
     background-repeat: no-repeat;
     background-position: center;
+    background-color: #62a39500;
 }
 
 .store{
