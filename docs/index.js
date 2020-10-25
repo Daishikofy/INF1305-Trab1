@@ -185,12 +185,12 @@ if (!ethEnabled()) {
     alert("Metamask or browser with Ethereum not detected!");
 }
 else {
-    window.Game1 = new web3.eth.Contract(contract_abi, contract_address_1);
-    window.Game2 = new web3.eth.Contract(contract_abi, contract_address_2);
-    window.Game3 = new web3.eth.Contract(contract_abi, contract_address_3);
-    contracts[0] = window.Game1;
+    contracts[0] = new web3.eth.Contract(contract_abi, contract_address_1);
+    contracts[1] = new web3.eth.Contract(contract_abi, contract_address_2);
+    contracts[2] = new web3.eth.Contract(contract_abi, contract_address_3);
+    /*contracts[0] = window.Game1;
     contracts[1] = window.Game2;
-    contracts[2] = window.Game3;
+    contracts[2] = window.Game3;*/
     saveCoinbase();
 }
 
