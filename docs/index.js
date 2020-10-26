@@ -188,9 +188,9 @@ if (!ethEnabled()) {
 }
 
 else {
-    contracts[0] = new web3.eth.Contract(contract_abi, contract_address_1);
-    contracts[1] = new web3.eth.Contract(contract_abi, contract_address_2);
-    contracts[2] = new web3.eth.Contract(contract_abi, contract_address_3);
+    window.Contract1 = new web3.eth.Contract(contract_abi, contract_address_1);
+    /*contracts[1] = new web3.eth.Contract(contract_abi, contract_address_2);
+    contracts[2] = new web3.eth.Contract(contract_abi, contract_address_3);*/
     saveCoinbase();
 }
 
@@ -214,7 +214,7 @@ async function LoadDocument() {
 
 async function OnItemClick(gameIndex, itemIndex, value) {
     if (storeState[gameIndex][itemIndex]) {
-        if (await contracts[gameIndex].withdraw().call())
+        if (await contracts[gameIndex].withdraw().send())
             storeState[gameIndex][itemIndex] = false;
     }
     else {
@@ -226,13 +226,13 @@ async function OnItemClick(gameIndex, itemIndex, value) {
 
 async function OnAmountClick(gameIndex) {
     if (await contracts[gameIndex].isActive().call())
-        await contracts[gameIndex].collectAmount().call();
-    await contracts[gameIndex].retrieveAmount().call();
+        await contracts[gameIndex].collectAmount().send();
+    await contracts[gameIndex].retrieveAmount().send();
     UpdateView();
 }
 
 async function OnCancelGameClick(gameIndex) {
-    await contracts[gameIndex].cancelContract().call();
+    await contracts[gameIndex].cancelContract().send();
     const covers = document.getElementsByClassName("fit");
     covers[gameIndex].style.backgroundImage = "";
     covers[gameIndex].style.backgroundColor = "#ffc478";
