@@ -236,15 +236,15 @@ async function OnItemClick(gameIndex, itemIndex, value) {
 
 async function OnAmountClick(gameIndex) {
     console.log("Amount click");
-    if (await contracts[gameIndex].isActive().call())
-        await contracts[gameIndex].collectAmount().send();
-    await contracts[gameIndex].retrieveAmount().send();
+    if (await contracts[gameIndex].methods.isActive().call())
+        await contracts[gameIndex].methods.collectAmount().send();
+    await contracts[gameIndex].methods.retrieveAmount().send();
     UpdateView();
 }
 
 async function OnCancelGameClick(gameIndex) {
     console.log("Cancel click");
-    await contracts[gameIndex].cancelContract().send();
+    await contracts[gameIndex].methods.cancelContract().send();
     const covers = document.getElementsByClassName("fit");
     covers[gameIndex].style.backgroundImage = "";
     covers[gameIndex].style.backgroundColor = "#ffc478";
