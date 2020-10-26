@@ -214,11 +214,11 @@ async function LoadDocument() {
 
 async function OnItemClick(gameIndex, itemIndex, value) {
     if (storeState[gameIndex][itemIndex]) {
-        if (await contracts[gameIndex].withdraw().send())
+        if (await window.Contract1.withdraw().send())
             storeState[gameIndex][itemIndex] = false;
     }
     else {
-        await contracts[gameIndex].buyItem(itemValidity, value).send(value, { from: window.coinbase });
+        await window.Contract1.buyItem(itemValidity, value).send(value, { from: window.coinbase });
         storeState[gameIndex][itemIndex] = true;
     }
     UpdateView();
