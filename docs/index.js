@@ -170,6 +170,7 @@ const contract_abi = [
 
 window.onload = async function () {
     await LoadDocument();
+    UpdateView();
 };
 
 
@@ -213,6 +214,7 @@ async function LoadDocument() {
 }
 
 async function OnItemClick(gameIndex, itemIndex, value) {
+    console.log("Item click");
     if (storeState[gameIndex][itemIndex]) {
         console.log("Withdraw item");
         if (await contracts[gameIndex].methods.withdraw().send()) {
@@ -228,6 +230,7 @@ async function OnItemClick(gameIndex, itemIndex, value) {
 }
 
 async function OnAmountClick(gameIndex) {
+    console.log("Amount click");
     if (await contracts[gameIndex].isActive().call())
         await contracts[gameIndex].collectAmount().send();
     await contracts[gameIndex].retrieveAmount().send();
@@ -235,6 +238,7 @@ async function OnAmountClick(gameIndex) {
 }
 
 async function OnCancelGameClick(gameIndex) {
+    console.log("Cancel click");
     await contracts[gameIndex].cancelContract().send();
     const covers = document.getElementsByClassName("fit");
     covers[gameIndex].style.backgroundImage = "";
