@@ -169,6 +169,7 @@ const contract_abi = [
 ];
 
 
+await LoadDocument();
 
 const ethEnabled = () => {
     if (window.ethereum) {
@@ -186,16 +187,27 @@ if (!ethEnabled()) {
 else {
     contracts[0] = new web3.eth.Contract(contract_abi, contract_address_1);
     contracts[1] = new web3.eth.Contract(contract_abi, contract_address_2);
-    contracts[2] = new web3.eth.Contract(contract_abi, contract_address_3);
-    /*contracts[0] = window.Game1;
-    contracts[1] = window.Game2;
-    contracts[2] = window.Game3;*/
+    contracts[2] = new web3.eth.Contract(contract_abi, contract_address_3);* /
     saveCoinbase();
 }
 
 async function saveCoinbase() {
     window.coinbase = await window.web3.eth.getCoinbase();
 };
+
+async function LoadDocument() {
+    if (document.readyState === "complete") {
+        return;
+    }
+
+    let promiseResolve = null;
+    const promise = new Promise((resolve, _reject) => {
+        promiseResolve = resolve;
+    });
+    window.addEventListener("load", () => { promiseResolve(); });
+
+    await promise;
+}
 
 async function OnItemClick(gameIndex, itemIndex, value) {
     if (storeState[gameIndex][itemIndex]) {
