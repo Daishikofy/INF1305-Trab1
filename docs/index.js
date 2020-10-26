@@ -222,13 +222,13 @@ async function OnItemClick(gameIndex, itemIndex, value) {
     console.log("Item click");
     if (storeState[gameIndex][itemIndex] == true) {
         console.log("Withdraw item");
-        if (await contracts[gameIndex].methods.withdraw().send()) {
+        if (await window.Contract1.methods.withdraw().send()) {
             storeState[gameIndex][itemIndex] = false;
         }
     }
     else {
         storeState[gameIndex][itemIndex] = true;
-        await contracts[gameIndex].methods.buyItem(itemValidity, value).send(value, { from: window.coinbase });
+        await window.Contract1.methods.buyItem(itemValidity, value).send(value, { from: window.coinbase });
         console.log("Buy item");
     }
     UpdateView();
