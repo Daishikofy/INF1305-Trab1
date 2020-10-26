@@ -168,8 +168,11 @@ const contract_abi = [
 
 ];
 
+window.onload = async function () {
+    await LoadDocument();
+};
 
-await LoadDocument();
+
 
 const ethEnabled = () => {
     if (window.ethereum) {
@@ -187,7 +190,7 @@ if (!ethEnabled()) {
 else {
     contracts[0] = new web3.eth.Contract(contract_abi, contract_address_1);
     contracts[1] = new web3.eth.Contract(contract_abi, contract_address_2);
-    contracts[2] = new web3.eth.Contract(contract_abi, contract_address_3);* /
+    contracts[2] = new web3.eth.Contract(contract_abi, contract_address_3);
     saveCoinbase();
 }
 
