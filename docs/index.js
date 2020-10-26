@@ -189,9 +189,14 @@ if (!ethEnabled()) {
 }
 
 else {
-    contracts[0] = new web3.eth.Contract(contract_abi, contract_address_1);
-    contracts[1] = new web3.eth.Contract(contract_abi, contract_address_2);
-    contracts[2] = new web3.eth.Contract(contract_abi, contract_address_3);
+    window.Contract1 = new web3.eth.Contract(contract_abi, contract_address_1);
+    window.Contract2 = new web3.eth.Contract(contract_abi, contract_address_2);
+    window.Contract3 = new web3.eth.Contract(contract_abi, contract_address_3);
+
+    contracts[0] = window.Contract1;
+    contracts[1] = window.Contract2;
+    contracts[2] = window.Contract3;
+
     saveCoinbase();
 }
 
@@ -215,7 +220,7 @@ async function LoadDocument() {
 
 async function OnItemClick(gameIndex, itemIndex, value) {
     console.log("Item click");
-    if (storeState[gameIndex][itemIndex]) {
+    if (storeState[gameIndex][itemIndex] == true) {
         console.log("Withdraw item");
         if (await contracts[gameIndex].methods.withdraw().send()) {
             storeState[gameIndex][itemIndex] = false;
