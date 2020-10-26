@@ -257,7 +257,7 @@ async function UpdateView() {
     const items = document.getElementsByClassName("item button");
     for (var i = 0; i < 3; i++) {
         for (var j = 0; j < 3; j++) {
-            if (storeState[i][j])
+            if (storeState[i][j] == true)
                 items[j + 3 * i].style.color = "#62a395";
             else
                 items[j + 3 * i].style.color = "#7abdae";
