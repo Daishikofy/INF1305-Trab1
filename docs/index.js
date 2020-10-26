@@ -218,7 +218,7 @@ async function OnItemClick(gameIndex, itemIndex, value) {
             storeState[gameIndex][itemIndex] = false;
     }
     else {
-        await window.Contract1.methods.buyItem(itemValidity, value).send(value, { from: window.coinbase });
+        await contracts[gameIndex].methods.buyItem(itemValidity, value).send(value, { from: window.coinbase });
         storeState[gameIndex][itemIndex] = true;
     }
     UpdateView();
