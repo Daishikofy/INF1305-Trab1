@@ -222,13 +222,13 @@ async function OnItemClick(gameIndex, itemIndex, itemValue) {
     console.log("Item click");
     if (storeState[gameIndex][itemIndex] == true) {
         console.log("Withdraw item");
-        if (await window.Contract1.methods.withdraw().send({ from: window.coinbase, value: 0 })) {
+        if (await contracts[gameIndex].methods.withdraw().send({ from: window.coinbase, value: 0 })) {
             storeState[gameIndex][itemIndex] = false;
         }
     }
     else {
         storeState[gameIndex][itemIndex] = true;
-        await window.Contract1.methods.buyItem(itemValidity, itemValue).send({ from: window.coinbase, value: itemValue });
+        await contracts[gameIndex].methods.buyItem(itemValidity, itemValue).send({ from: window.coinbase, value: itemValue });
         console.log("Buy item");
     }
     UpdateView();
@@ -237,14 +237,14 @@ async function OnItemClick(gameIndex, itemIndex, itemValue) {
 async function OnAmountClick(gameIndex) {
     console.log("Amount click");
     if (await contracts[gameIndex].methods.isActive().call())
-        await contracts[gameIndex].methods.collectAmount().send();
-    await contracts[gameIndex].methods.retrieveAmount().send();
+        await contracts[gameIndex].methods.collectAmount().send({ from: window.coinbase, value: 0 });
+    await contracts[gameIndex].methods.retrieveAmount().send({ from: window.coinbase, value: 0 });
     UpdateView();
 }
 
 async function OnCancelGameClick(gameIndex) {
     console.log("Cancel click");
-    await contracts[gameIndex].methods.cancelContract().send();
+    await contracts[gameIndex].methods.cancelContract().send({ from: window.coinbase, value: 0 });
     const covers = document.getElementsByClassName("fit");
     covers[gameIndex].style.backgroundImage = "";
     covers[gameIndex].style.backgroundColor = "#ffc478";
