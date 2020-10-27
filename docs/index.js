@@ -218,17 +218,17 @@ async function LoadDocument() {
     await promise;
 }
 
-async function OnItemClick(gameIndex, itemIndex, value) {
+async function OnItemClick(gameIndex, itemIndex, itemValue) {
     console.log("Item click");
     if (storeState[gameIndex][itemIndex] == true) {
         console.log("Withdraw item");
-        if (await window.Contract1.methods.withdraw().send()) {
+        if (await window.Contract1.methods.withdraw().send({ from: window.coinbase, value: 0 })) {
             storeState[gameIndex][itemIndex] = false;
         }
     }
     else {
         storeState[gameIndex][itemIndex] = true;
-        await window.Contract1.methods.buyItem(itemValidity, value).send(value, { from: window.coinbase });
+        await window.Contract1.methods.buyItem(itemValidity, itemValue).send({ from: window.coinbase, value: itemValue });
         console.log("Buy item");
     }
     UpdateView();
@@ -265,6 +265,6 @@ async function UpdateView() {
     }
     const currency = document.getElementsByClassName("currency");
     for (var i = 0; i < 3; i++) {
-        currency[i].textContent = await contracts[i].ownerAmount().call();
+        currency[i].textContent = await contracts[i].methods.ownerAmount().call();
     }
 } 
