@@ -223,7 +223,7 @@ async function OnItemClick(gameIndex, itemIndex, itemValue) {
     console.log("Item click");
 
     const items = document.getElementsByClassName("item button");
-    items[gameIndex + 3 * itemIndex].style.backgroundColor = "#ffc478";
+    items[itemIndex + 3 * gameIndex].style.backgroundColor = "#ffc478";
 
     if (storeState[itemIndex][gameIndex] == true) {
         console.log("Withdraw item");
