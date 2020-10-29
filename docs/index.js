@@ -221,6 +221,7 @@ async function LoadDocument() {
 
 async function OnItemClick(gameIndex, itemIndex, itemValue) {
     console.log("Item click");
+    
     const items = document.getElementsByClassName("item button");
     items[itemIndex + 3 * gameIndex].style.backgroundColor = "#ffc478";
 
