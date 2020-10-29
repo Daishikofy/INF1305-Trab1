@@ -261,7 +261,7 @@ async function OnCancelGameClick(gameIndex) {
 
 async function UpdateView() {
     document.getElementById("validity").textContent = itemValidity.toString() + " hour";
-    document.getElementById("spent").textContent = moneySpent.toString() + " wei";
+    document.getElementById("spent").textContent = moneySpent + " wei";
     const items = document.getElementsByClassName("item button");
     for (var i = 0; i < 3; i++) {
         for (var j = 0; j < 3; j++) {
