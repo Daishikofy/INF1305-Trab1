@@ -1,5 +1,5 @@
 const itemValidity = 1;
-const moneySpent = 0;
+let moneySpent = 0;
 const storeState = [[false, false, false], [false, false, false], [false, false, false]]
 
 let contracts = []
