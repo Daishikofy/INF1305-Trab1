@@ -17,11 +17,6 @@ contract Trab1 {
     mapping(address => item) pendingItems;
     address[] itemIndexes;
 
-    // Events that will be emitted on changes.
-    event HighestBidIncreased(address bidder, uint amount);
-    event AuctionEnded(address winner, uint amount);
-
-
     constructor(
         address payable _beneficiary
     ) public {
@@ -33,10 +28,10 @@ contract Trab1 {
 
         require(pendingItems[msg.sender].purshasedDate == 0, "This wallet already purshased an item");
         require(isActive, "The game is not active anymore");
-        require(msg.value == value, "The value does not correspond ton the value of the item");
+        require(msg.value == value, "The value does not correspond to the value of the item");
         require(validity * 1 days <= msg.value, "The value is too low or the validity too high, precison error would occur");
         if (msg.value != 0) {
-            item memory purshasedItem = item(now, now + validity, validity * 1 days, msg.value);
+            item memory purshasedItem = item(now, now + validity, validity * 1 hours, msg.value);
             purshasedItem.outOfValidityDate = now + purshasedItem.validity;
             pendingItems[msg.sender] = purshasedItem;
             itemIndexes.push(msg.sender);
@@ -94,7 +89,12 @@ contract Trab1 {
         require(msg.sender == gameOwner, "Only contract owner can retrieve the locked amount");
         require(ownerAmount != 0, "No amount to retrieve");
 
-        gameOwner.transfer(ownerAmount);
+        uint returnValue = ownerAmount;
+        ownerAmount = 0;
+
+        if (!msg.sender.send(returnValue)) {
+            ownerAmount = returnValue;
+        }
     }
     
     /// Collect the owned value from all items and adds it to the owner balance 

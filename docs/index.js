@@ -1,4 +1,5 @@
 const itemValidity = 1;
+const moneySpent = 0;
 const storeState = [[false, false, false], [false, false, false], [false, false, false]]
 
 let contracts = []
@@ -220,15 +221,19 @@ async function LoadDocument() {
 
 async function OnItemClick(gameIndex, itemIndex, itemValue) {
     console.log("Item click");
+    const items = document.getElementsByClassName("item button");
+    items[itemIndex + 3 * gameIndex].style.backgroundColor = "#ffc478";
+
     if (storeState[gameIndex][itemIndex] == true) {
         console.log("Withdraw item");
         if (await contracts[gameIndex].methods.withdraw().send({ from: window.coinbase, value: 0 })) {
-            storeState[gameIndex][itemIndex] = false;
+            storeState[gameIndex][itemIndex] = false;            
         }
     }
     else {
         storeState[gameIndex][itemIndex] = true;
         await contracts[gameIndex].methods.buyItem(itemValidity, itemValue).send({ from: window.coinbase, value: itemValue });
+        moneySpent += itemValue;
         console.log("Buy item");
     }
     UpdateView();
@@ -236,6 +241,8 @@ async function OnItemClick(gameIndex, itemIndex, itemValue) {
 
 async function OnAmountClick(gameIndex) {
     console.log("Amount click");
+    const items = document.getElementsByClassName("currency button");
+    items[gameIndex].style.backgroundColor = "#ff8566";
     if (await contracts[gameIndex].methods.isActive().call())
         await contracts[gameIndex].methods.collectAmount().send({ from: window.coinbase, value: 0 });
     await contracts[gameIndex].methods.retrieveAmount().send({ from: window.coinbase, value: 0 });
@@ -252,8 +259,8 @@ async function OnCancelGameClick(gameIndex) {
 }
 
 async function UpdateView() {
-    document.getElementById("validity").textContent = itemValidity;
-
+    document.getElementById("validity").textContent = itemValidity.toString() + " hour";
+    document.getElementById("spent").textContent = moneySpent + " wei";
     const items = document.getElementsByClassName("item button");
     for (var i = 0; i < 3; i++) {
         for (var j = 0; j < 3; j++) {
