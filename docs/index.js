@@ -8,166 +8,127 @@ const contract_address_2 = "0x68eb5468269f60912B3E8fC122c288716Ba2f9d4";
 const contract_address_3 = "0x68eb5468269f60912B3E8fC122c288716Ba2f9d4";
 
 const contract_abi = [
-    {
-        "inputs": [
-            {
-                "internalType": "address payable",
-                "name": "_beneficiary",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "winner",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "AuctionEnded",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "bidder",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "HighestBidIncreased",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "validity",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "value",
-                "type": "uint256"
-            }
-        ],
-        "name": "buyItem",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "cancelContract",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "collectAmount",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "gameOwner",
-        "outputs": [
-            {
-                "internalType": "address payable",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "isActive",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "ownerAmount",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "retrieveAmount",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "seeItem",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_outOfValidityDate",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "withdraw",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
-
-];
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "validity",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "buyItem",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "cancelContract",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "collectAmount",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "retrieveAmount",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "withdraw",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address payable",
+                    "name": "_beneficiary",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [],
+            "name": "gameOwner",
+            "outputs": [
+                {
+                    "internalType": "address payable",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "isActive",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "ownerAmount",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "seeItem",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "_value",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_outOfValidityDate",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ];
 
 window.onload = async function () {
     await LoadDocument();
@@ -266,9 +227,9 @@ async function UpdateView() {
     for (var i = 0; i < 3; i++) {
         for (var j = 0; j < 3; j++) {
             if (storeState[i][j] == true)
-                items[j + 3 * i].style.backgroundColor = "#62a395";
+                items[i + 3 * j].style.backgroundColor = "#62a395";
             else
-                items[j + 3 * i].style.backgroundColor = "#7abdae";
+                items[i + 3 * j].style.backgroundColor = "#7abdae";
         }
     }
     const currency = document.getElementsByClassName("currency");
