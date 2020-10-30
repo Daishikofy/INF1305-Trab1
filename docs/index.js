@@ -4,8 +4,8 @@ const storeState = [[false, false, false], [false, false, false], [false, false,
 
 let contracts = []
 const contract_address_1 = "0x68eb5468269f60912B3E8fC122c288716Ba2f9d4";
-const contract_address_2 = "0x3923e3E580683E9a367d31Beab31813091c963dc";
-const contract_address_3 = "0x34C2784C467f6ecD1a1a2F91eB7D9A6dfAee4755";
+const contract_address_2 = "0x68eb5468269f60912B3E8fC122c288716Ba2f9d4";
+const contract_address_3 = "0x68eb5468269f60912B3E8fC122c288716Ba2f9d4";
 
 const contract_abi = [
     {
