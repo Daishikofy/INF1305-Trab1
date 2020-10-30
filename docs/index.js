@@ -4,8 +4,8 @@ const storeState = [[false, false, false], [false, false, false], [false, false,
 
 let contracts = []
 const contract_address_1 = "0x8404C503149FEcFeEbb50ba745A07FfeDB430411";
-const contract_address_2 = "0x8404C503149FEcFeEbb50ba745A07FfeDB430411";
-const contract_address_3 = "0x8404C503149FEcFeEbb50ba745A07FfeDB430411";
+const contract_address_2 = "0xBa48b9C8EF8695E7c77A6dd6291F3ebe0724DCa3";
+const contract_address_3 = "0x3923e3E580683E9a367d31Beab31813091c963dc";
 
 const contract_abi = [
         {
@@ -206,7 +206,10 @@ async function OnAmountClick(gameIndex) {
     const items = document.getElementsByClassName("currency button");
     items[gameIndex].style.backgroundColor = "#ff8566";
     if (await contracts[gameIndex].methods.isActive().call())
+    {
         await contracts[gameIndex].methods.collectAmount().send({ from: window.coinbase, value: 0 });
+        UpdateView();
+    }
     await contracts[gameIndex].methods.retrieveAmount().send({ from: window.coinbase, value: 0 });
     UpdateView();
 }
