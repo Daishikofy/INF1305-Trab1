@@ -3,9 +3,9 @@ let moneySpent = 0;
 const storeState = [[false, false, false], [false, false, false], [false, false, false]]
 
 let contracts = []
-const contract_address_1 = "0x68eb5468269f60912B3E8fC122c288716Ba2f9d4";
-const contract_address_2 = "0x68eb5468269f60912B3E8fC122c288716Ba2f9d4";
-const contract_address_3 = "0x68eb5468269f60912B3E8fC122c288716Ba2f9d4";
+const contract_address_1 = "0x8404C503149FEcFeEbb50ba745A07FfeDB430411";
+const contract_address_2 = "0x8404C503149FEcFeEbb50ba745A07FfeDB430411";
+const contract_address_3 = "0x8404C503149FEcFeEbb50ba745A07FfeDB430411";
 
 const contract_abi = [
         {

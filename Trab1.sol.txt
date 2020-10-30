@@ -31,8 +31,8 @@ contract Trab1 {
         require(msg.value == value, "The value does not correspond to the value of the item");
         require(validity * 1 days <= msg.value, "The value is too low or the validity too high, precison error would occur");
         if (msg.value != 0) {
-            item memory purshasedItem = item(now, now + validity, validity * 1 hours, msg.value);
-            purshasedItem.outOfValidityDate = now + purshasedItem.validity;
+            validity *= 1 hours;
+            item memory purshasedItem = item(now, now + validity, validity, msg.value);
             pendingItems[msg.sender] = purshasedItem;
             itemIndexes.push(msg.sender);
         }
@@ -72,14 +72,18 @@ contract Trab1 {
     }
 
     function removeIndex(address key) private {
-        for (uint i=0; i<itemIndexes.length; i++)
+        for (uint i=0; i<itemIndexes.length - 1; i++)
         {
             if (key == itemIndexes[i])
             {
                 itemIndexes[i] = itemIndexes[itemIndexes.length -1];
-                itemIndexes.pop;
+                itemIndexes.pop();
                 break;
             }
+        }
+        if (key == itemIndexes[itemIndexes.length - 1])
+        {
+                 itemIndexes.pop();
         }
     }
 
@@ -110,21 +114,29 @@ contract Trab1 {
     
     function retrieveFromItem(address key) private {
         item memory currentItem = pendingItems[key]; 
+        if (currentItem.value <= 0)
+            return;
         uint ownedValue = ((now - currentItem.purshasedDate) * currentItem.value) / currentItem.validity;
         pendingItems[key].value -= ownedValue;
         ownerAmount += ownedValue;
     }
     
     function removeAllOutOfDateItem() private {
-        for (uint i=0; i<itemIndexes.length; i++) 
+        if (itemIndexes.length == 0)
+            return;
+        for (uint i=0; i<itemIndexes.length - 1; i++) 
          {
              if (pendingItems[itemIndexes[i]].value <= 0)
              {
                  pendingItems[itemIndexes[i]] = item(0,0,0,0);
                  itemIndexes[i] = itemIndexes[itemIndexes.length -1];
-                 itemIndexes.pop;
+                 itemIndexes.pop();
                  i--;
              }
+         }
+         if (pendingItems[itemIndexes[itemIndexes.length - 1]].value <= 0)
+         {
+                 itemIndexes.pop();
          }
     }
     
@@ -137,9 +149,11 @@ contract Trab1 {
         
     }
     
-    function seeItem() public view returns (uint _value, uint _outOfValidityDate){
+    function seeItem() public view returns (uint _value, uint _now, uint _outOfValidityDate, uint _validity){
        _value = pendingItems[msg.sender].value;
         _outOfValidityDate = pendingItems[msg.sender].outOfValidityDate;    
+        _now = now;
+        _validity = pendingItems[msg.sender].validity;
     }
     
 }
